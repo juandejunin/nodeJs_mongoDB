@@ -1,0 +1,28 @@
+{
+  "name": "nodejs_mongodb",
+  "version": "1.0.0",
+  "description": "Rest API node mongo",
+  "main": "app.js",
+  "scripts": {
+    "dev": "nodemon src/app.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/juandejunin/nodeJs_mongoDB.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/juandejunin/nodeJs_mongoDB/issues"
+  },
+  "homepage": "https://github.com/juandejunin/nodeJs_mongoDB#readme",
+  "dependencies": {
+    "body-parser": "^1.20.1",
+    "dotenv": "^16.0.3",
+    "express": "^4.18.2",
+    "mongoose": "^6.7.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.20"
+  }
+}
