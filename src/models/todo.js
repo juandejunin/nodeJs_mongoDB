@@ -20,6 +20,7 @@ const todoSchema = mongoose.Schema({
 
 todoSchema.statics.create = create;
 todoSchema.statics.getAll = getAll;
+todoSchema.statics.getOne = getOne;
 
 mongoose.model('todo', todoSchema, 'todos')
 
@@ -37,5 +38,16 @@ function create(todoInfo, user){
 function getAll(user){
     //con el filtro userId: user._id nos retornara solo los todos que pertenescan al usuario logueado
     return this.find({ userId: user._id})
+
+}
+
+function getOne(id, user){
+    //funcion nativa 
+    return this.findOne({ _id: id, userId: user._id})
+        .then(todo =>{
+            if (!todo) throw new Error('todo not found')
+
+            return todo;
+        })
 
 }
