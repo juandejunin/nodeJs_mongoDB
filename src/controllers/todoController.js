@@ -34,3 +34,21 @@ module.exports.getTodo = function(req,res){
             res.status(200).send({ success:true, data: {todo} })
         }).catch(error => res.status(200).send({ success: false, error: error.messagge}))
 }
+
+module.exports.updateTodo = function(req,res){    
+    const Todo = getModelByName('todo');
+
+    Todo.updateTodo(req.params.id,req.body.todo, req.user)
+        .then(todo =>{
+            res.status(200).send({ success:true, data: {todo} })
+        }).catch(error => res.status(200).send({ success: false, error: error.messagge}))
+}
+
+module.exports.deleteTodo = function(req,res){    
+    const Todo = getModelByName('todo');
+
+    Todo.deleteTodo(req.params.id, req.user)
+        .then(todo =>{
+            res.status(200).send({ success:true, messege: 'todo remove successfully' })
+        }).catch(error => res.status(200).send({ success: false, error: error.messagge}))
+}

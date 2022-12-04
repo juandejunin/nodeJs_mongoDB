@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+// const { updateTodo, deleteTodo } = require('../controllers/todoController');
 
 const todoSchema = mongoose.Schema({
     userId:{
@@ -21,6 +22,8 @@ const todoSchema = mongoose.Schema({
 todoSchema.statics.create = create;
 todoSchema.statics.getAll = getAll;
 todoSchema.statics.getOne = getOne;
+todoSchema.statics.updateTodo = updateTodo;
+todoSchema.statics.deleteTodo = deleteTodo;
 
 mongoose.model('todo', todoSchema, 'todos')
 
@@ -50,4 +53,36 @@ function getOne(id, user){
             return todo;
         })
 
+}
+
+function updateTodo(id, todoInfo = {}, user){
+    //crear objeto update y poner en el las actualizaciones
+    const update = {};
+    if ( todoInfo.title) update.title = todoInfo.title;
+    if (todoInfo.description) update.description = todoInfo.description;
+
+    return this.findOne({ _id: id, userId: user._id})
+    .then(todo =>{
+        if (!todo) throw new Error('todo not found')
+        if (Object.keys(update).length == 0) return todo;
+
+        todo.set(update);
+        return todo.save();
+
+    })
+    
+}
+
+function deleteTodo(id, user){
+
+    return this.findOne({ _id: id, userId: user._id})
+    .then(todo =>{
+        if (!todo) throw new Error('todo not found')
+       
+
+        return todo.remove();
+
+        
+    })
+    
 }
