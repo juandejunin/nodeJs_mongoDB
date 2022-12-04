@@ -1,5 +1,6 @@
 const getModelByName = require('../db/getModelByName')
 
+
 module.exports.signup = function(req, res){
     //si no nos llega el objeto esperado devolvemos un error porque no hay usuario que crear
     if(!req.body.user) return res.status(200).send({success: false, error:'user info not found'});
@@ -50,4 +51,16 @@ module.exports.login = function(req,res){
     } catch (error) {
         res.status(200).send({success: false, error: error.message})        
     }
+}
+
+module.exports.current_user = function(req,res){
+    if(!req.user) return res.status(200).send({success: false, data: { user:null }  })
+
+    const User = getModelByName('user');
+
+    return User.findUserById(req.user._id)
+        .then(user =>{
+            res.status(200).send({success: true, data:{ user }});
+        }).catch(error => res.status(200).send({ success: false, error: error.message}));
+    
 }

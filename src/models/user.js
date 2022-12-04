@@ -3,8 +3,6 @@ const nodemailer = require('nodemailer');
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcrypt');
 const { isValidEmail } = require ('../helpers');
-const { emit } = require('nodemon');
-const { isErrored } = require('nodemailer/lib/xoauth2');
 
 const UserSchema = mongoose.Schema({
     email: {
@@ -33,10 +31,12 @@ const UserSchema = mongoose.Schema({
     }
 })
 
+//creando metodos
 UserSchema.statics.signup = signup;
 UserSchema.statics.sendConfirmationEmail = sendConfirmationEmail;
 UserSchema.statics.confirmAccount = confirmAccount;
 UserSchema.statics.login = login;
+UserSchema.statics.findUserById = findUserById;
 //definir el modelo, primero el nombre del modelo luego el schema y finalmete users en plural que sera el nombre de la tabla en la base de datos
 mongoose.model('user', UserSchema, 'users');
 
@@ -151,4 +151,19 @@ function login(email, password){
         })
 
 
+}
+
+function findUserById(_id){
+    
+    return this.findById(_id)
+        .then(user =>{
+            return{
+                _id: user._id,
+                email: user.email,
+                emailVerified: user.emailVerified,
+                firstName: user.firstName,
+                lastName: user.lastName,
+            }
+        })
+   
 }
